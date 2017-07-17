@@ -2,7 +2,7 @@ const router = require('express').Router();
 const messageService = require('../../services/message');
 
 
-router.get('/', (req, res, next) => {
+router.get('/all', (req, res, next) => {
 	messageService.findAll((err, data) => {
 		if (!err){
 			res.data = data;
@@ -27,11 +27,11 @@ router.get('/:id', (req, res, next) => {
 });
 
 
-router.post('/', (req, res, next) => {
+router.post('/add', (req, res, next) => {
 	let obj = {		
-		"senderId": 1,
-		"receiverId": 2,
-		"text": "lorem upsum 2" 
+		"senderId": req.body.senderId,
+		"receiverId": req.body.receiverId,
+		"text": req.body.text
 	};
 	messageService.add(obj, (err, data) => {
 		
@@ -40,7 +40,7 @@ router.post('/', (req, res, next) => {
 });
 
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id/delete', (req, res, next) => {
 	messageService.findOneAndDelete(Number(req.params.id), (err, data) => {
 		if (!err){
 			res.json(res.data);
@@ -51,9 +51,9 @@ router.delete('/:id', (req, res, next) => {
 	});
 });
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id/edit', (req, res, next) => {
 	const obj = {			
-		"text": "lorem upsum 2" 
+		"text": req.body.text
 	};
 	messageService.findOneAndUpdate(Number(req.params.id), obj, (err, data) => {
 		if (!err){

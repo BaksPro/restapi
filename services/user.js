@@ -1,20 +1,4 @@
-const users = [{
-	id: 1,
-	name: 'Nikolas',
-	email: 'nikolas@gmail.com'
-},{
-	id: 2,
-	name: 'Eduard',
-	email: 'eduard@gmail.com'
-},{
-	id: 3,
-	name: 'Bohdan',
-	email: 'bohdan@gmail.com'
-},{
-	id: 4,
-	name: 'Dima',
-	email: 'dima@gmail.com'
-}];
+const users = require('./dataUsers');
 
 function findUser(id){
 	const err = null;
@@ -29,7 +13,7 @@ function findUser(id){
 			index = ind;
 			return true;
 		} else {
-			index = false;
+			index = -1;
 			return false;
 		}
 	});
@@ -47,8 +31,9 @@ module.exports = {
 	},
 
 	add: (user, callback) => {
-		const {err,newUser, index} = findUser(user.id)
-		if (typeof user.id !== 'undefined' &&  !index){
+		let {err,newUser, index} = findUser(user.id);
+		
+		if (typeof user.id !== 'undefined' &&  index < 0 ){
 			users.push(user);
 			console.log("user add");
 			console.log(index);

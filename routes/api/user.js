@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const userService = require('../../services/user');
 
-router.get('/', (req, res, next) => {
+router.get('/all', (req, res, next) => {
 	userService.findAll((err, data) => {
 		if (!err){
 			res.data = data;
@@ -26,7 +26,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 
-router.post('/', (req, res, next) => {
+router.post('/add', (req, res, next) => {
 	const obj = {
 		"id": req.body.id,
 		"name": req.body.name,
@@ -40,7 +40,7 @@ router.post('/', (req, res, next) => {
 });
 
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id/delete', (req, res, next) => {
 	userService.findOneAndDelete(Number(req.params.id), (err, data) => {
 		if (!err){
 			res.json(res.data);
@@ -51,11 +51,10 @@ router.delete('/:id', (req, res, next) => {
 	});
 });
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id/edit', (req, res, next) => {
 	const obj = {
-		"id": req.body.id,
 		"name": req.body.name,
-		 "email": req.body.email
+		"email": req.body.email
 		
 	};
 	userService.findOneAndUpdate(Number(req.params.id), obj, (err, data) => {
@@ -68,5 +67,10 @@ router.put('/:id', (req, res, next) => {
 	});
 	
 });
+
+
+
+
+
 
 module.exports = router;

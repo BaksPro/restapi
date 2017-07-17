@@ -1,93 +1,4 @@
-const messages = [{
-    "id": 1,
-    "senderId": 1,
-    "receiverId": 2,
-    "text": "lorem upsum 2" 
-},
-{   
-      "id": 2,
-    "senderId": 1,
-    "receiverId": 3,
-    "text": "lorem upsum 3" 
-},
-{   
-      "id": 3,
-    "senderId": 2,
-    "receiverId": 3,
-    "text": "lorem upsum 5" 
-},
-{     "id": 4,
-    "senderId": 1,
-    "receiverId": 3,
-    "text": "lorem upsum 2" 
-},
-{      "id": 5,
-    "senderId": 3,
-    "receiverId": 2,
-    "text": "lorem upsum 2" 
-},
-{      "id": 6,
-    "senderId": 4,
-    "receiverId": 2,
-    "text": "lorem upsum 2" 
-},
-{      "id": 7,
-    "senderId": 1,
-    "receiverId": 2,
-    "text": "lorem upsum 2" 
-},
-{   
-      "id": 8,
-    "senderId": 1,
-    "receiverId": 4,
-    "text": "lorem upsum 2" 
-},
-{   
-      "id": 9,
-    "senderId": 1,
-    "receiverId": 4,
-    "text": "lorem upsum 2" 
-},
-{   
-      "id": 10,
-    "senderId": 1,
-    "receiverId": 2,
-    "text": "lorem upsum 2" 
-},
-{         "id": 11,
-    "senderId": 1,
-    "receiverId": 3,
-    "text": "lorem upsum 2" 
-},
-{
-      "id": 12,
-    "senderId": 2,
-    "receiverId": 1,
-    "text": "lorem upsum 2" 
-},
-{      "id": 13,
-    "senderId": 2,
-    "receiverId": 4,
-    "text": "lorem upsum 2" 
-},
-{   
-      "id": 14,
-    "senderId": 3,
-    "receiverId": 1,
-    "text": "lorem upsum 2" 
-},
-{   
-      "id": 15,
-    "senderId": 3,
-    "receiverId": 2,
-    "text": "lorem upsum 2" 
-},
-{   
-      "id": 16,
-    "senderId": 3,
-    "receiverId": 4,
-    "text": "lorem upsum 2" 
-}];
+const messages = require('./dataMessages');
 
 function findMessage(id){
 	const err = null;
@@ -121,14 +32,18 @@ module.exports = {
 
 	add: (message, callback) => {
 		
-		if ( message.text.length > 0){
-            messages.length;
+		if (  message.text && message.text.length > 0 && message.senderId && message.receiverId){            
             message.id = messages.length + 1;
-			messages.push(message);
-            console.log("message.id");          
+            messages.push(message); 
+            console.log(`${message.text.length}`);
+            console.log(`${message.senderId}`);
+            console.log(`${message.receiverId}`);                   
 			callback(message);
 		
-		} else {			
+		} else {	
+            console.log(`${message.text.length}`);
+            console.log(`${message.senderId}`);
+            console.log(`${message.receiverId}`);		
 			callback(new Error('You dont add empty message'));
 		}
 	},
@@ -138,14 +53,16 @@ module.exports = {
 		if (typeof index !== 'undefined'){
 			messages.splice(index, 1);
 		} else {
-			err = new Error('no messages with such index');
+			err = new Error('no users with such index');
 		}
 		callback(err);
 	},
 
 	findOneAndUpdate: (id, message, callback) => {
 		const {err, index} = findMessage(id);
+		
 		messages[index] = Object.assign(messages[index], message);
-		callback(err);
+		
+		callback(err,messages[index]);
 	}
 };
